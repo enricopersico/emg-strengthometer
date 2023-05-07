@@ -1,11 +1,15 @@
+"""
+DESCRIPTION: 
+Script that prints the waveform of data file.
+AUTHOR: ENRICO PERSICO
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 
+hz = 1000 # sampling rate of data in Hz
+data_file = "data/data3.txt" # name of data file
 
-txt = "data/data3.txt"
-hz = 1000
-
-with open(txt) as f:
+with open(data_file) as f:
     data = f.read()
 
 data = data.split('\n')
@@ -18,7 +22,7 @@ for item in data:
     try:
         y.append( int(item))
         x.append(val)
-        val+=0.001
+        val += 0.001
     except ValueError:
         data.pop()
         break
@@ -27,11 +31,11 @@ fig = plt.figure()
 
 ax1 = fig.add_subplot(111)
 
-ax1.set_title("Plot title")    
-ax1.set_xlabel('x label')
-ax1.set_ylabel('y label')
+ax1.set_title("ARDUINO EMG READOUT")    
+ax1.set_xlabel('Time (s)')
+ax1.set_ylabel('ADC Score')
 
-ax1.plot(x,y, c='r', label='the data')
+ax1.plot(x,y, c='b')
 
 leg = ax1.legend()
 
