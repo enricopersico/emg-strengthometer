@@ -3,11 +3,10 @@ PYTHON CODE FOR GUI APP - EMG Project
 AUTHOR: Enrico Persico
 """
 import customtkinter as ctk
-import time, serial
+import time, serial, os, sys
 
 # global variables initialized
-ser = serial.Serial("/dev/cu.usbmodem101", 9600)
-print("Connected to Arduino")
+ser = serial.Serial("/dev/cu.usbmodem2101", 50000)
 
 root = ctk.CTk()
 #ctk.set_appearance_mode("dark")
@@ -16,6 +15,9 @@ root.geometry("800x500")
 
 frame = ctk.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill='both', expand=True)
+
+def restart():
+    os.execl(sys.executable, sys.executable, *sys.argv)
 
 def countdown(old, new):
     new.pack(pady=12, padx=10)
@@ -47,12 +49,16 @@ def record():
 
     final_label = ctk.CTkLabel(master=frame, text="Strength Score:", font=("Roboto", 56), text_color="white")
     final_label.pack(pady=12, padx=10)
+    high_score = high_score*3 + 100
     hs_label = ctk.CTkLabel(master=frame, text=int(high_score), font=("Roboto", 96), text_color="green")
     hs_label.pack(pady=12, padx=10)
 
+    restart_button = ctk.CTkButton(master=frame, text="TEST ME AGAIN", command=restart, font=("Roboto", 33), width=360, height=80)
+    restart_button.pack(pady=40, padx=10)
+
     
 # handles start button press
-def start(button, label):
+def start():
     button.pack_forget()
     label.pack_forget()
     relax_label = ctk.CTkLabel(master=frame, text="Relax your arm.", font=("Roboto", 66), text_color="white")
@@ -68,15 +74,11 @@ def start(button, label):
     root.after(3200, record)
 
 
-# sets up start screen
-def main():
-    label = ctk.CTkLabel(master=frame, text="Test Your Strength!", font=("Roboto", 68), text_color="white")
-    label.pack(pady=12, padx=10)
 
-    button = ctk.CTkButton(master=frame, text="TEST ME", command=start(button, label), font=("Roboto", 33), width=240, height=80)
-    button.pack(pady=40, padx=10)
+label = ctk.CTkLabel(master=frame, text="Test Your Strength!", font=("Roboto", 68), text_color="white")
+label.pack(pady=12, padx=10)
 
-    root.mainloop()
+button = ctk.CTkButton(master=frame, text="TEST ME", command=start, font=("Roboto", 33), width=240, height=80)
+button.pack(pady=40, padx=10)
 
-if __name__=="__main__":
-    main()
+root.mainloop()

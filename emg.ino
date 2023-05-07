@@ -5,11 +5,11 @@ AUTHOR: Enrico Persico
 int data;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(50000);
 } 
 
 void loop(){
   data = analogRead(A0);
-  Serial.println(data1);
-  delay(10);
+  Serial.println(data);
+  delay(1);
 }
